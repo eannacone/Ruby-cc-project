@@ -15,7 +15,15 @@ def caesar_cipher (convert, shift=0)
 
     # shift numerals to new values
     numerical_conv.each do |b|
-      num_shift.push(b + shift)
+        if b + shift >= 60 && b + shift <= 122
+            num_shift.push(b + shift)
+        elsif b + shift >= 122 && b + shift <= 184
+            b = b - 26
+            num_shift.push(b + shift) 
+        elsif b + shift < 65 && b + shift > 40
+            b = b + 26
+            num_shift.push(b + shift) 
+        end
     end
 
     # translate new numerals to letters
@@ -30,7 +38,7 @@ def caesar_cipher (convert, shift=0)
     puts "Final product with shifted characters is #{final}"
 end
 
-caesar_cipher('abcdef', 1)
+caesar_cipher('zebra', 5)
 
 
 
