@@ -2,17 +2,13 @@ def substrings(word, dictionary)
     # Create empty hash to store searched word and counter for tally
     new_hash = {}
     count = 0
+    low_word = word.downcase
 
-    # iterate through the dictionary and pull the words that match 
-    # the input word
-    # if match == true, add word to new dictionary and increase count 
-    # by 1 each instance
+    # iterate over dictionary and scan for items that have pieces to match the input (low-word)
 
     for i in dictionary
-      if i.include?(word)
-        count += 1
-        new_hash[word] = count
-      end
+      matches = low_word.scan(i).length
+      new_hash[i] = matches unless matches == 0
     end
 
     # return the new_hash
@@ -21,9 +17,8 @@ def substrings(word, dictionary)
 end 
 
 
-dictionary = ['true', 'loot', 'loot', 'plough', 'triple', 'sloot', 'presloot']
-substrings('loot', dictionary)
-
+dictionary = ["below", "down", "go", "going", "horn", "how", "howdy", "it", "i", "low", "own", "part", "partner", "sit"]
+substrings("below", dictionary)
 
 
 
