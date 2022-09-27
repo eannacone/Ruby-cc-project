@@ -43,4 +43,54 @@ class Game
     
         add_to_board(coord_one, coord_two, symbol)
       end
-      
+
+      def add_to_board(coord_one, coord_two, symbol)
+        @board[coord_one][coord_two] = symbol
+        @@turn_count += 1
+      end
+    
+      def three_across
+        @board.each do |i|
+          if i.all? { |j| j == 'X' }
+            @@winner = 'O'
+            @@turn_count = 10
+          elsif i.all? { |j| j == 'O' }
+            @@winner = 'X'
+            @@turn_count = 10
+          else
+            nil
+          end
+        end
+      end
+    
+      def three_down
+        flat = @board.flatten
+        flat.each_with_index do |v, i|
+          if v == 'X' && flat[i + 3] == 'X' && flat[i + 6] =='X'
+            @@winner = 'X'
+            @@turn_count = 10
+          elsif v == 'O' && flat[i + 3] == 'O' && flat[i + 6] =='O'
+            @@winner = 'O'
+            @@turn_count = 10
+          else
+            nil
+          end
+        end
+      end
+    
+      def three_diagonal
+        center_val = @board[1][1]
+        if center_val == 'X' || center_val == 'O'
+          if @board[0][0] && @board[2][2] == center_val
+            @@winner = center_val
+            @@turn_count = 10
+          elsif @board[2][0] && @board[0][2] == center_val
+            @@winner = center_val
+            @@turn_count = 10
+          end
+        else
+          nil
+        end
+      end
+
+
