@@ -44,53 +44,96 @@ class Game
         add_to_board(coord_one, coord_two, symbol)
       end
 
-      def add_to_board(coord_one, coord_two, symbol)
-        @board[coord_one][coord_two] = symbol
-        @@turn_count += 1
-      end
+    def add_to_board(coord_one, coord_two, symbol)
+    @board[coord_one][coord_two] = symbol
+    @@turn_count += 1
+    end
     
-      def three_across
-        @board.each do |i|
-          if i.all? { |j| j == 'X' }
-            @@winner = 'O'
-            @@turn_count = 10
-          elsif i.all? { |j| j == 'O' }
-            @@winner = 'X'
-            @@turn_count = 10
-          else
-            nil
-          end
-        end
+    def three_across
+    @board.each do |i|
+      if i.all? { |j| j == 'X' }
+        @@winner = 'O'
+        @@turn_count = 10
+      elsif i.all? { |j| j == 'O' }
+        @@winner = 'X'
+        @@turn_count = 10
+      else
+        nil
       end
+    end
+    end
     
-      def three_down
-        flat = @board.flatten
-        flat.each_with_index do |v, i|
-          if v == 'X' && flat[i + 3] == 'X' && flat[i + 6] =='X'
-            @@winner = 'X'
-            @@turn_count = 10
-          elsif v == 'O' && flat[i + 3] == 'O' && flat[i + 6] =='O'
-            @@winner = 'O'
-            @@turn_count = 10
-          else
-            nil
-          end
-        end
+    def three_down
+    flat = @board.flatten
+    flat.each_with_index do |v, i|
+      if v == 'X' && flat[i + 3] == 'X' && flat[i + 6] =='X'
+        @@winner = 'X'
+        @@turn_count = 10
+      elsif v == 'O' && flat[i + 3] == 'O' && flat[i + 6] =='O'
+        @@winner = 'O'
+        @@turn_count = 10
+      else
+        nil
       end
+    end
     
-      def three_diagonal
-        center_val = @board[1][1]
-        if center_val == 'X' || center_val == 'O'
-          if @board[0][0] && @board[2][2] == center_val
-            @@winner = center_val
-            @@turn_count = 10
-          elsif @board[2][0] && @board[0][2] == center_val
-            @@winner = center_val
-            @@turn_count = 10
-          end
-        else
-          nil
-        end
+    
+    def three_diagonal
+    center_val = @board[1][1]
+    if center_val == 'X' || center_val == 'O'
+      if @board[0][0] && @board[2][2] == center_val
+        @@winner = center_val
+        @@turn_count = 10
+      elsif @board[2][0] && @board[0][2] == center_val
+        @@winner = center_val
+        @@turn_count = 10
       end
+    else
+      nil
+    end  
+    end
+
+    def declare_result(symbol)
+    case symbol
+      when 'O'
+        puts "#{@player_one_name} wins the game!"
+      when 'X'
+        puts "#{@player_two_name} wins the game!"
+    else
+      puts "It's a tie!"
+    end
+    end
+    
+    def play_game
+    puts "\r\n"
+    puts "Here is your empty battlefield!"
+    display_board(@board)
+    
+    until @@turn_count >= 10 do 
+      player_turn(@@turn_count)
+        three_across
+        three_down
+        three_diagonal
+        display_board(@board)
+    end
+    
+    declare_result(@@winner)
+    end
+    
+end
+    
+puts 'Welcome to tic-tac-toe. The rules are as expected, but choosing placement requires coordinates.'
+puts 'Each turn, enter two numbers with a space, per the grid layout below:'
+puts '\r\n'
+puts '0 0 | 0 1 | 0 2'
+puts '1 0 | 1 1 | 1 2'
+puts '2 0 | 2 1 | 2 2'
+puts '\r\n'
+    
+    
+game = Game.new
+game.play_game
+
+      
 
 
