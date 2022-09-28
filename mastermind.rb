@@ -9,12 +9,43 @@ class MasterMind
    
     def comp_generate()
       pieces = 0
-      @@game_board = Array.new(4)
+      @@game_board = Array.new(4).compact()
       until pieces == 4 
         @@game_board.push(rand(1..4))
         pieces += 1
       end
       puts @@game_board
+      choice()
+    end
+  
+    def choice()
+      @guess = []
+      puts "Lets make a guess! Enter each number individually"
+      g1 = gets.chomp
+      @guess.push(g1)
+      g2 = gets.chomp
+      @guess.push(g2)
+      g3 = gets.chomp
+      @guess.push(g3)
+      g4 = gets.chomp
+      @guess.push(g4)
+      @real_guess = @guess.map(&:to_i)
+      puts "Your guess is #{@real_guess}."
+      @@turn_count += 1
+      check_match
+    end
+  
+    def check_match()
+      while @@turn_count.to_i <= @turn_total.to_i
+        if @real_guess == @@game_board
+          puts "You guessed correctly, game over you win!"
+        else
+          puts "Incorrect. Try again!"
+          choice()
+        end
+      end
+      puts "Game over, you've used up all of your guesses! You Lose!"
+      
     end
     
     def play_game()
