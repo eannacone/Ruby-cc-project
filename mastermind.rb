@@ -4,7 +4,13 @@ class MasterMind
     def initialize()
       puts "Enter the number of attempts you would like to have! Let's keep it under 13."
       @turn_total = gets.chomp
-      puts "You have allowed yourself #{@turn_total} guesses."
+      if @turn_total.to_i > 12
+        puts "Please enter a number of attempts smaller than 13."
+        initialize()
+      else
+        puts "You have allowed yourself #{@turn_total} guesses."
+        comp_generate()
+      end
     end
    
     def comp_generate()
@@ -36,20 +42,26 @@ class MasterMind
     end
   
     def check_match()
-      while @@turn_count.to_i <= @turn_total.to_i
-        if @real_guess == @@game_board
-          puts "You guessed correctly, game over you win!"
-        else
-          puts "Incorrect. Try again!"
-          choice()
-        end
+      if @@turn_count.to_i < @turn_total.to_i && @real_guess == @@game_board
+        puts "You guessed correctly, game over you win!"
+      elsif @@turn_count.to_i < @turn_total.to_i && @real_guess != @@game_board
+        puts "Incorrect. Try again!"
+        choice()
+      else
+        puts "Game over, you lost!"
+        play_again?()
       end
-      puts "Game over, you've used up all of your guesses! You Lose!"
-      
     end
     
-    def play_game()
-      
+    def play_again?()
+      puts "Shall we play another match?"
+      answer = gets.chomp.capitalize
+      if answer == "Yes"
+        @@turn_count == 0
+        initialize()
+      else
+        nil
+      end
     end
   end
   
@@ -62,5 +74,5 @@ class MasterMind
   
   
   new_game = MasterMind.new()
-  new_game.comp_generate
+  new_game.intialize
   
