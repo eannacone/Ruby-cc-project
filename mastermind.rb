@@ -20,7 +20,7 @@ class MasterMind
         @@game_board.push(rand(1..4))
         pieces += 1
       end
-      puts @@game_board
+      # puts @@game_board
       choice()
     end
   
@@ -45,10 +45,10 @@ class MasterMind
       if @@turn_count.to_i < @turn_total.to_i && @real_guess == @@game_board
         puts "You guessed correctly, game over you win!"
       elsif @@turn_count.to_i < @turn_total.to_i && @real_guess != @@game_board
-        puts "Incorrect. Try again!"
+        puts "Incorrect. Try again! You have used #{@@turn_count} of #{@turn_total} guesses."
         choice()
       else
-        puts "Game over, you lost!"
+        puts "Incorrect. You have used #{@@turn_count} of #{@turn_total} guesses. Game over, you lost!"
         play_again?()
       end
     end
@@ -57,10 +57,10 @@ class MasterMind
       puts "Shall we play another match?"
       answer = gets.chomp.capitalize
       if answer == "Yes"
-        @@turn_count == 0
+        @@turn_count = 0
         initialize()
       else
-        nil
+        puts "Application terminate......"
       end
     end
   end
@@ -74,5 +74,5 @@ class MasterMind
   
   
   new_game = MasterMind.new()
-  new_game.intialize
+  new_game.initialize()
   
